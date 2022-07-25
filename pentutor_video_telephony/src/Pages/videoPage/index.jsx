@@ -18,6 +18,20 @@ import { createVideoChatUserSocket } from "../../Constants/Sockets/VideoSocket"
 
 
 
+const RecordingComponent = () => {
+    const [rec_tim, setRecordingTime] = useState(0)
+    useEffect(() => {
+        setTimeout(() => {
+            setRecordingTime(rec_tim + 1)
+        }, 1000);
+    }, [rec_tim])
+    return (
+        <div className="fixed bg-red-600 rounded-md p-2 text-white z-20 top-4 left-1/2 -translate-x-1/2">
+            Recording {rec_tim > 59 ? String(rec_tim / 60).split('.')[0] : '00'}:{rec_tim % 60}
+        </div>
+    )
+}
+
 
 const VideoPageLoader = (props) => {
     const loading_size = 80
@@ -138,9 +152,8 @@ const StreamPage = (props) => {
         <>
             {
                 props.utility.recording &&
-                <div className="fixed bg-red-600 rounded-md p-2 text-white z-20 top-4 left-1/2 -translate-x-1/2">
-                    Recording...
-                </div>
+                <RecordingComponent />
+
             }
             {
                 loading ?
