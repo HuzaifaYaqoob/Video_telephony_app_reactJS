@@ -2,11 +2,12 @@ import { useState } from "react"
 import { connect, useDispatch } from "react-redux"
 import { LoginHandler } from "../../redux/actions/Auth"
 import Cookies from 'js-cookie'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 
 
 const Login = (props) => {
     const [login_data, setLoginData] = useState({})
+    const [params, setsearc] = useSearchParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -22,7 +23,8 @@ const Login = (props) => {
                         type: 'success'
                     }
                 })
-                navigate('/')
+
+                navigate(params.get('next') ? params.get('next') : '/')
             },
             () => {
                 dispatch({
@@ -38,7 +40,7 @@ const Login = (props) => {
 
     return (
         <>
-            <div className="max-w-[400px] bg-white shadow-lg rounded-lg w-full p-4">
+            <div className="max-w-[400px] mb-3 bg-white shadow-lg rounded-lg w-full p-4">
                 <h3 className="text-gray-900 text-3xl text-center mb-3">Welcome back!</h3>
                 <p className="text-center text-gray-600">Login with Credentials</p>
                 <div className="my-4">
@@ -72,6 +74,12 @@ const Login = (props) => {
                     >Login</div>
                 </div>
             </div>
+            {/* <p>Don't have account? <span
+                    className="text-indigo-500 cursor-pointer"
+                    onClick={() => {
+                        navigate('/signup')
+                    }}
+                >Signup</span></p> */}
         </>
     )
 }

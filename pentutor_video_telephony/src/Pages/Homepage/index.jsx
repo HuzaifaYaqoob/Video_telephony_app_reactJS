@@ -122,11 +122,9 @@ const Homepage = (props) => {
                     }
                 </div>
                 <div
-                    className="max-w-[500px] w-[90%] md:flex-1 rounded-lg overflow-hidden bg-gray-100 h-[350px] bg-center bg-cover bg-no-repeat"
-                    style={{
-                        backgroundImage: `url('${process.env.PUBLIC_URL}/images/bg.png')`
-                    }}
+                    className="md:flex-1"
                 >
+                    <img src={`${process.env.PUBLIC_URL}/images/bg1.png`} alt="" />
 
                 </div>
             </div>

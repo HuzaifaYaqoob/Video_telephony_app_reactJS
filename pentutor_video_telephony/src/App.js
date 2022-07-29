@@ -2,7 +2,7 @@
 
 import Homepage from "./Pages/Homepage";
 import StreamPage from "./Pages/videoPage";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useRoutes, useLocation } from "react-router-dom";
 import SnackBar from 'my-react-snackbar';
 import { connect, useDispatch } from "react-redux";
 import Cookies from "js-cookie";
@@ -19,6 +19,7 @@ import InitializeWindowStore from "./Constants/storeConstants";
 import WhiteboardScreen from "./Pages/Whiteboard/Whiteboard";
 
 function App(props) {
+  const location = useLocation()
   const loading_size = 80
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -41,7 +42,7 @@ function App(props) {
           type: 'info'
         }
       })
-      navigate('/login')
+      navigate(`/login?next=${location.pathname}`)
     }
   }, [])
   useEffect(() => {
@@ -91,7 +92,10 @@ function App(props) {
               <Route path="/:video_chat_id" element={<StreamPage />} />
             </>
             :
-            <Route path="/login" element={<LoginPage />} />
+            <>
+              <Route path="/login" element={<LoginPage />} />
+              {/* <Route path="/signup" element={<LoginPage />} /> */}
+            </>
         }
       </Routes>
     </>

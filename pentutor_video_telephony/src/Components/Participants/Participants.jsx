@@ -10,7 +10,7 @@ const User = ({ user_part, ...props }) => {
 
     useEffect(() => {
         if (rm_vid.current) {
-            user_part.stream.getVideoTracks().forEach(element => {
+            user_part.stream.getVideoTracks()?.forEach(element => {
                 console.log(element.enabled)
             })
             rm_vid.current.srcObject = user_part.stream
