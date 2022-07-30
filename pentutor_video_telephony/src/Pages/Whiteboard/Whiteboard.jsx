@@ -1,13 +1,20 @@
 
+import { useState } from 'react'
 import { SketchField, Tools } from 'react-sketch-whiteboard'
 
 
 
-const BoardTool = () => {
+const BoardTool = ({ data, active, onClick }) => {
     return (
         <>
-            <div className='cursor-pointer'>
-                tool
+            <div
+                className={`cursor-pointer w-[35px] h-[35px] flex items-center justify-center ${active && 'bg-gray-200'} rounded`}
+                onClick={() => {
+                    onClick(data.name)
+                }}
+            >
+
+                {data.icon}
             </div>
         </>
     )
@@ -17,21 +24,69 @@ const BoardTool = () => {
 
 
 const SketchFieldDemo = () => {
+    const [selected_tool, setSelected] = useState('pencil')
+
+    const handle_select_tool = (name) => {
+        setSelected(name)
+    }
 
     const all_toots = [
-        'arrow',
-        'line',
-        'pan',
-        'pencil',
-        'pointer',
+        {
+            name: 'arrow',
+            icon: <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L8 20L10.051 13.846C10.3455 12.9623 10.8418 12.1592 11.5005 11.5005C12.1592 10.8418 12.9623 10.3455 13.846 10.051L20 8L1 1Z" stroke="black" stroke-width="2" stroke-linejoin="round" />
+            </svg>
+            ,
+        },
+        {
+            name: 'line',
+            icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0.353553" y1="0.646447" x2="15.3536" y2="15.6464" stroke="black" />
+            </svg>
+
+            ,
+        },
+        {
+            name: 'rectangle',
+            icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.75" y="0.75" width="22.5" height="22.5" stroke="black" stroke-width="1.5" />
+            </svg>
+        },
+        {
+            name: 'pan',
+            icon: <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.5 0L5.5 4.5H13.5L9.5 0ZM4.5 5.5L0 9.5L4.5 13.5V5.5ZM14.5 5.5V13.5L19 9.5L14.5 5.5ZM9.5 7.5C8.96957 7.5 8.46086 7.71071 8.08579 8.08579C7.71071 8.46086 7.5 8.96957 7.5 9.5C7.5 10.0304 7.71071 10.5391 8.08579 10.9142C8.46086 11.2893 8.96957 11.5 9.5 11.5C10.0304 11.5 10.5391 11.2893 10.9142 10.9142C11.2893 10.5391 11.5 10.0304 11.5 9.5C11.5 8.96957 11.2893 8.46086 10.9142 8.08579C10.5391 7.71071 10.0304 7.5 9.5 7.5ZM5.5 14.5L9.5 19L13.5 14.5H5.5Z" fill="black" />
+            </svg>
+            ,
+        },
+        {
+            name: 'pencil',
+            icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.333 13.9484L14.57 1.71043C15.0534 1.2478 15.6988 0.992841 16.3679 1.00015C17.037 1.00747 17.6767 1.27647 18.1499 1.74956C18.6231 2.22265 18.8923 2.86222 18.8998 3.53132C18.9073 4.20042 18.6525 4.84586 18.19 5.32943L5.951 17.5674C5.6718 17.8467 5.31619 18.037 4.929 18.1144L1 18.9004L1.786 14.9704C1.86345 14.5832 2.05378 14.2276 2.333 13.9484V13.9484Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12.5 4.40039L15.5 7.40039" stroke="black" stroke-width="2" />
+            </svg>
+
+            ,
+        },
+        {
+            name: 'remove',
+            icon: <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.9595 15.5905L21.8195 10.7305C21.9834 10.5392 22.069 10.2931 22.0593 10.0414C22.0495 9.78973 21.9452 9.55099 21.7671 9.37289C21.589 9.1948 21.3503 9.09047 21.0986 9.08075C20.8469 9.07102 20.6008 9.15663 20.4095 9.32046L15.5495 14.1305L10.6595 9.24046C10.4682 9.07663 10.2222 8.99102 9.97049 9.00075C9.71881 9.01047 9.48007 9.1148 9.30198 9.29289C9.12389 9.47099 9.01955 9.70973 9.00983 9.9614C9.00011 10.2131 9.08572 10.4592 9.24954 10.6505L14.1295 15.5905L9.34954 20.3105C9.24486 20.4001 9.15984 20.5104 9.09982 20.6345C9.0398 20.7586 9.00606 20.8937 9.00075 21.0314C8.99543 21.1691 9.01863 21.3065 9.06891 21.4348C9.11918 21.5631 9.19544 21.6797 9.29289 21.7771C9.39035 21.8746 9.5069 21.9508 9.63522 22.0011C9.76355 22.0514 9.90088 22.0746 10.0386 22.0693C10.1763 22.0639 10.3114 22.0302 10.4355 21.9702C10.5596 21.9102 10.6699 21.8251 10.7595 21.7205L15.5295 16.9505L20.2695 21.6905C20.4608 21.8543 20.7069 21.9399 20.9586 21.9302C21.2103 21.9204 21.449 21.8161 21.6271 21.638C21.8052 21.4599 21.9095 21.2212 21.9193 20.9695C21.929 20.7178 21.8434 20.4718 21.6795 20.2805L16.9595 15.5905Z" fill="black" />
+                <path d="M16 32C12.8355 32 9.74207 31.0616 7.11088 29.3035C4.4797 27.5454 2.42894 25.0466 1.21793 22.1229C0.0069325 19.1993 -0.309921 15.9823 0.307443 12.8786C0.924806 9.77487 2.44866 6.92394 4.6863 4.6863C6.92394 2.44866 9.77487 0.924806 12.8786 0.307443C15.9823 -0.309921 19.1993 0.0069325 22.1229 1.21793C25.0466 2.42894 27.5454 4.4797 29.3035 7.11088C31.0616 9.74207 32 12.8355 32 16C32 20.2435 30.3143 24.3131 27.3137 27.3137C24.3131 30.3143 20.2435 32 16 32V32ZM16 2.00001C13.2311 2.00001 10.5243 2.82109 8.22202 4.35943C5.91974 5.89777 4.12532 8.08427 3.06569 10.6424C2.00607 13.2006 1.72882 16.0155 2.26901 18.7313C2.80921 21.447 4.14258 23.9416 6.10051 25.8995C8.05845 27.8574 10.553 29.1908 13.2687 29.731C15.9845 30.2712 18.7994 29.9939 21.3576 28.9343C23.9157 27.8747 26.1022 26.0803 27.6406 23.778C29.1789 21.4757 30 18.7689 30 16C30 12.287 28.525 8.72602 25.8995 6.10051C23.274 3.475 19.713 2.00001 16 2.00001V2.00001Z" fill="black" />
+            </svg>
+
+        }
     ]
     return (
         <div className='relative' >
-            <div className='absolute top-10 left-10 bg-white p-2 rounded-md shadow-lg flex gap-3'>
+            <div className='absolute top-10 left-10 bg-white p-2 rounded-md shadow-lg flex gap-3 z-20'>
                 {
                     all_toots.map((tl, index) => {
                         return (
-                            <BoardTool />
+                            <BoardTool
+                                data={tl} active={selected_tool == tl.name ? true : false}
+                                onClick={handle_select_tool}
+                            />
                         )
                     })
                 }
@@ -40,10 +95,9 @@ const SketchFieldDemo = () => {
                 width='100%'
                 className='bg-gray-100'
                 height='100vh'
-                tool={Tools.Pencil}
+                tool={selected_tool}
                 lineColor='#000'
                 lineWidth={3}
-                value={{}}
             />
         </div>
     )
