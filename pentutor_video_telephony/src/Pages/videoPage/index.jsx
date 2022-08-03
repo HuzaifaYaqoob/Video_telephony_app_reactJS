@@ -15,6 +15,7 @@ import { Triangle } from "react-loader-spinner"
 import Cookies from "js-cookie"
 import { createActiveVideoSocket } from "../../Constants/Sockets/ActiveVideoSocket"
 import { createVideoChatUserSocket } from "../../Constants/Sockets/VideoSocket"
+import SettingsSidebar from "../../Components/Settings/SettingsSidebar"
 
 
 
@@ -181,6 +182,12 @@ const StreamPage = (props) => {
                                             props.utility.active_sidetab && props.utility.active_sidetab === 'PARTICIPANTS' &&
                                             <>
                                                 <ParticipantBlock />
+                                            </>
+                                        }
+                                        {
+                                            props.utility.active_sidetab && props.utility.active_sidetab === 'SETTINGS' &&
+                                            <>
+                                                <SettingsSidebar />
                                             </>
                                         }
                                     </div>

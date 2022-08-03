@@ -47,7 +47,7 @@ const MenuBlock = (props) => {
                 }
             )
         }
-        else{
+        else {
             alert('Please allow Mic access and try refreshing the page')
         }
     }
@@ -275,6 +275,14 @@ const MenuBlock = (props) => {
                                 }}
                             >
                                 White Board
+                            </div>
+                            <div
+                                className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded-md text-[#2f3f69]"
+                                onClick={() => {
+                                    props.MakeActiveTab({ tab: 'SETTINGS' })
+                                }}
+                            >
+                                Security Settings
                             </div>
                             <div
                                 className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded-md text-red-600"
