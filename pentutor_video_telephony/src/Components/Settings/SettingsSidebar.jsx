@@ -25,26 +25,32 @@ const SwitchButton = ({ text, active, name, onChangeFunction }) => {
 
 
 const SettingSideBar = (props) => {
-    const [settings, setSettings] = useState({
-        allow_chat: false,
-        allow_rename: false,
-        lock_meeting: false,
-        share_screen: false,
-        start_video: false,
-        unmute: false,
-        waiting_room: true,
-    })
+    const [allow_chat, setallow_chat] = useState(false)
+    const [allow_rename, setallow_rename] = useState(false)
+    const [lock_meeting, setlock_meeting] = useState(false)
+    const [share_screen, setshare_screen] = useState(false)
+    const [start_video, setstart_video] = useState(false)
+    const [unmute, setunmute] = useState(false)
+    const [waiting_room, setwaiting_room] = useState(false)
 
     useEffect(()=>{
         if(props.video.video_chat?.settings){
-            setSettings(props.video.video_chat?.settings)
+            // setSettings(props.video.video_chat?.settings)
         }
-
+        
     }, [props.video.video_chat?.settings])
+    console.log(props.video.video_chat)
 
-    const handleOnChange = (e) =>{
 
-    }
+    useEffect(()=>{
+        if (props.socket.active_video_socket){
+
+            let s_data = {
+                allow_chat, allow_rename, lock_meeting, share_screen, start_video, unmute, waiting_room
+            }
+            props.socket.active_video_socket.send(JSON.stringify(s_data))
+        }
+    } , [allow_chat, allow_rename, lock_meeting, share_screen, start_video, unmute, waiting_room])
     return (
         <>
             <div className="fixed top-0 left-0 right-0 bottom-0 lg:relative w-full lg:min-w-[400px] lg:max-w-[400px] bg-[#eef2f8] lg:rounded-3xl p-3 flex flex-col gap-3">
@@ -53,45 +59,45 @@ const SettingSideBar = (props) => {
                     <div className="pr-3">
                         <SwitchButton
                             text={'Allow Chat'}
-                            active={settings.allow_chat}
+                            active={allow_chat}
                             name='allow_chat'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setallow_chat(!allow_chat)}}
                         />
                         <SwitchButton
                             text={'Allow Rename'}
-                            active={settings.allow_rename}
+                            active={allow_rename}
                             name='allow_rename'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setallow_rename(!allow_rename)}}
                         />
                         <SwitchButton
                             text={'Lock Meeting'}
-                            active={settings.lock_meeting}
+                            active={lock_meeting}
                             name='lock_meeting'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setlock_meeting(!lock_meeting)}}
                         />
                         <SwitchButton
                             text={'Allow Screen Share'}
-                            active={settings.share_screen}
+                            active={share_screen}
                             name='share_screen'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setshare_screen(!share_screen)}}
                         />
                         <SwitchButton
                             text={'Allow start video'}
-                            active={settings.start_video}
+                            active={start_video}
                             name='start_video'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setstart_video(!start_video)}}
                         />
                         <SwitchButton
                             text={'Unmute All'}
-                            active={settings.unmute}
+                            active={unmute}
                             name='unmute'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setunmute(!unmute)}}
                         />
                         <SwitchButton
                             text={'Enable waiting room'}
-                            active={settings.waiting_room}
+                            active={waiting_room}
                             name='waiting_room'
-                            onChangeFunction={handleOnChange}
+                            onChangeFunction={()=>{setwaiting_room(!waiting_room)}}
                         />
                         {/* {
                             props.connection.connections.filter(cnt => cnt.stream).length > 0 ?
