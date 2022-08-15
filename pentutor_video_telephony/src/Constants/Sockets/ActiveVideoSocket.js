@@ -169,6 +169,16 @@ const onNewMessage = async (e) => {
             )
         }
     }
+    else if (data.type == 'SETTINGS_CHANGE'){
+        store.dispatch(
+            {
+                type: 'VIDEO_CHAT_SETTINGS_CHANGE',
+                payload: {
+                    ...data.setting
+                }
+            }
+        )
+    }
 
 }
 

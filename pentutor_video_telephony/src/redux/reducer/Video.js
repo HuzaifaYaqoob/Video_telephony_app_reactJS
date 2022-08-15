@@ -12,6 +12,15 @@ const initialState = {
 
 const VideoReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'VIDEO_CHAT_SETTINGS_CHANGE':
+            let vid_chat_prev = state.video_chat ? state.video_chat : {}
+            return {
+                ...state,
+                video_chat : {
+                    ...vid_chat_prev,
+                    settings : action.payload
+                }
+            }
         case VIDEO_MEETING_ACCEPTED_TO_JOIN:
             return {
                 ...state,

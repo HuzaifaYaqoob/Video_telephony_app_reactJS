@@ -56,7 +56,8 @@ const SettingSideBar = (props) => {
                 type: 'SETTINGS_CHANGE',
                 message: {
                     allow_chat, allow_rename, lock_meeting, share_screen, start_video, unmute, waiting_room
-                }
+                },
+                chat : props.video.video_chat
             }
             props.socket.active_video_socket.send(JSON.stringify(s_data))
         }
