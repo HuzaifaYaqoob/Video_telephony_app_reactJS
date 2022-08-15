@@ -126,7 +126,7 @@ const Homepage = (props) => {
                 <div
                     className="md:flex-1"
                 >
-                    <img src={`${process.env.PUBLIC_URL}/images/bg1.png`} alt="" />
+                    <img src={`${process.env.PUBLIC_URL}/images/image_processing20210526-20289-11vl3bc.png`} alt="" />
 
                 </div>
             </div>
