@@ -60,7 +60,8 @@ const onNewMessage = async (event) => {
     }
 }
 
-const socketOnClose = () => {
+const socketOnClose = (e) => {
+    console.log(e)
     console.log('Connection Closed')
 }
 
