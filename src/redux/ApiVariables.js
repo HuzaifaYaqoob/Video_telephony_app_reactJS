@@ -5,8 +5,8 @@ export const video_websocket_url = '/ws/video-chat/'
 
 
 
-// const BaseURL = 'http://192.168.10.5:8000'
-// export const wsBaseURL = 'ws://192.168.10.5:8000'
+// const BaseURL = 'http://127.0.0.1:8000'
+// export const wsBaseURL = 'ws://127.0.0.1:8000'
 
 const BaseURL = 'https://pentutorbackend.redexpo.co.uk'
 export const wsBaseURL = 'wss://pentutorbackend.redexpo.co.uk'
