@@ -21,7 +21,7 @@ const UserVideoBlock = ({user, mediaStream, connections, ...props}) =>{
             <div className="mb-4 sm:mb-0 border relative rounded-3xl overflow-hidden h-[250px] min-w-[300px] flex-1 flex items-center justify-center border-gray-300">
                 {
                     !is_audio_active && 
-                    <span className="">
+                    <span className="absolute top-2 right-2">
                         <svg className="w-[12px] h-[20px] md:w-[20px] md:h-[27px]" viewBox="0 0 23 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 className={`${props.user.stream.audio_stream?.getAudioTracks()[0].enabled ? 'fill-black' : 'fill-white'}`}
