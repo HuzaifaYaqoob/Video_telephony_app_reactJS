@@ -18,7 +18,7 @@ const UserVideoBlock = ({user, mediaStream}) =>{
         <>
             <div className="border relative rounded-3xl overflow-hidden h-[250px] min-w-[300px] flex-1 flex items-center justify-center border-gray-300">
                 <p className={`absolute text-white ${is_vid_active ? 'bottom-0 left-0 bg-black px-3 py-1' : ''}`}>{user.first_name} {user.last_name}</p>
-                <video ref={rm_vid} autoPlay muted className="w-full"></video>
+                <video ref={rm_vid} autoPlay muted className="w-auto max-w-full max-h-full h-auto"></video>
             </div>
         </>
     )
