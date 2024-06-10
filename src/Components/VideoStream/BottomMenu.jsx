@@ -124,7 +124,7 @@ const MenuBlock = (props) => {
 
     return (
         <>
-            <div className="md:min-h-[100px] fixed bottom-5 left-5 right-5 md:static bg-[#f1f4f9] rounded-md md:rounded-3xl flex items-center justify-between md:justify-center gap-3 md:gap-8 py-3 px-5 md:px-8">
+            <div className="md:min-h-[100px] fixed bottom-5 left-5 right-5 md:static bg-[#f1f4f9] rounded-3xl md:rounded-3xl flex items-center justify-between md:justify-center gap-3 md:gap-8 py-3 px-5 md:px-8">
                 <MenuIcon
                     icon={
                         <>
