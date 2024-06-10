@@ -9,6 +9,7 @@ import { REMOVE_USER_CONNECTION } from "../../redux/ActionTypes/connections"
 import { CHAT_NEW_MESSAGE } from "../../redux/ActionTypes/Chat"
 import { add_new_screen_share_connection, screen_share_response_answer } from "../Connections/screenShareCon"
 import { PlaySound } from "../Utility/utility"
+import { USER_MUTED_UNMUTED } from "../../redux/ActionTypes/streamTypes"
 
 
 const onNewMessage = async (e) => {
@@ -182,10 +183,18 @@ const onNewMessage = async (e) => {
     else if (data.type == 'USER_MUTED_HIS_SELF'){
         let states = store.getState()
         let user_connection = states?.connection?.connections?.find(cn => cn.user.id == data.user)
-        console.log('USER_MUTED_HIS_SELF')
-        console.log(states.connection.connections)
-        console.log(data)
-        console.log(user_connection)
+        if (user_connection){
+            let tracks = user_connection.stream.getAudioTracks()
+            tracks.forEach(element => {
+                element.enabled = data.is_muted
+            });
+            store.dispatch(
+                {
+                    type: USER_MUTED_UNMUTED,
+                    payload: data
+                }
+            )
+        }
     }
 
 }

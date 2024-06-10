@@ -1,7 +1,7 @@
 
 
 import { ADD_ALL_SCREEN_SHARE_CONNECTIONS, ADD_NEW_USER_CONNECTION, REMOVE_USER_CONNECTION } from "../ActionTypes/connections"
-import { ADD_CONNECTION_MEDIA_STREAM, ADD_SCREEN_CONNECTION_STREAM, SET_PINNED_STREAM } from "../ActionTypes/streamTypes"
+import { ADD_CONNECTION_MEDIA_STREAM, ADD_SCREEN_CONNECTION_STREAM, SET_PINNED_STREAM, USER_MUTED_UNMUTED } from "../ActionTypes/streamTypes"
 
 
 const initialState = {
@@ -10,6 +10,17 @@ const initialState = {
 
 export const ConnectionReducer = (state = initialState, action) => {
     switch (action.type) {
+        case USER_MUTED_UNMUTED:
+            return {
+                ...state,
+                connections: state.connections.map(cnct => {
+                    if (cnct.user.id == action.payload.user) {
+                        cnct.stream.getAudioTracks().forEach(track => track.enabled = action.payload.is_muted)
+                        return cnct
+                    }
+                    return cnct
+                })
+            }
         case ADD_SCREEN_CONNECTION_STREAM:
             return {
                 ...state,

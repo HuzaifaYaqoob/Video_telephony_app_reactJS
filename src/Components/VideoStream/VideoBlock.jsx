@@ -6,9 +6,8 @@ import { ToggleVideoMode } from "../../redux/actions/Video"
 const UserVideoBlock = ({user, mediaStream, connections, ...props}) =>{
     const rm_vid = useRef(null)
     const is_vid_active = mediaStream?.getVideoTracks()?.length > 0 ? mediaStream?.getVideoTracks()[0]?.enabled : 'no track found'
-    const is_audio_active = mediaStream?.getAudioTracks()
-    // console.log(user.first_name , ' audio, ', is_audio_active)
-    console.log(is_audio_active)
+    const is_audio_active = mediaStream?.getAudioTracks()[0]?.enabled
+    console.log(user.first_name , ' audio, ', is_audio_active)
 
 
     useEffect(() => {
