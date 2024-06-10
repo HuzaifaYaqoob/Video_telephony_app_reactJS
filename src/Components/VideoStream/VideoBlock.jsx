@@ -5,8 +5,8 @@ import { ToggleVideoMode } from "../../redux/actions/Video"
 
 const UserVideoBlock = ({user, mediaStream}) =>{
     const rm_vid = useRef(null)
-    const is_vid_active = mediaStream?.getVideoTracks()?.length > 0 ? mediaStream?.getVideoTracks()[0]?.enabled : false
-    const is_audio_active = mediaStream?.getAudioTracks()?.length > 0 ? mediaStream?.getAudioTracks()[0]?.enabled : false
+    const is_vid_active = mediaStream?.getVideoTracks()?.length > 0 ? mediaStream?.getVideoTracks()[0]?.enabled : 'no track found'
+    const is_audio_active = props?.connection?.connections.find(user => user.username == user.username)?.mediaStream?.getAudioTracks()?.length > 0 ? props?.connection?.connections.find(user => user.username == user.username)?.mediaStream?.getAudioTracks()[0]?.enabled : 'no track found'
     console.log(user.first_name , ' audio, ', is_audio_active)
 
 
@@ -28,19 +28,6 @@ const UserVideoBlock = ({user, mediaStream}) =>{
 
 
 const VideoBlock = (props) => {
-    const video_ref = useRef()
-
-    useEffect(() => {
-        if (video_ref && video_ref.current) {
-            video_ref.current.srcObject = props.stream.pinned_stream
-            video_ref.current.play()
-        }
-    }, [
-        props.stream.pinned_stream,
-        video_ref.current
-    ])
-
-    const is_vid_active = (props.stream.pinned_stream) && props.stream.pinned_stream.getVideoTracks()[0].enabled
 
     return (
         <>
@@ -54,7 +41,7 @@ const VideoBlock = (props) => {
                 {
                     props?.connection?.connections?.map(cnctn => {
                         return (
-                            <UserVideoBlock user={cnctn?.user} mediaStream={cnctn?.stream} />
+                            <UserVideoBlock user={cnctn?.user} mediaStream={cnctn?.stream} {...props} />
                         )
                     })
                 }
