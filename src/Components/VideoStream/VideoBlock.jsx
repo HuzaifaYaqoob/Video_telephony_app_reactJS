@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { ToggleVideoMode } from "../../redux/actions/Video"
 
 
-const UserVideoBlock = ({user, mediaStream}) =>{
+const UserVideoBlock = ({user, mediaStream, ...props}) =>{
     const rm_vid = useRef(null)
     const is_vid_active = mediaStream?.getVideoTracks()?.length > 0 ? mediaStream?.getVideoTracks()[0]?.enabled : 'no track found'
     const is_audio_active = props?.connection?.connections.find(user => user.username == user.username)?.mediaStream?.getAudioTracks()?.length > 0 ? props?.connection?.connections.find(user => user.username == user.username)?.mediaStream?.getAudioTracks()[0]?.enabled : 'no track found'
