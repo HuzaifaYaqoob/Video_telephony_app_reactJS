@@ -41,13 +41,6 @@ const MenuBlock = (props) => {
             user_stream.getAudioTracks().forEach(track => {
                 track.enabled = !track.enabled
             });
-            props.socket.active_video_socket.send(
-                JSON.stringify({
-                    type: 'USER_MUTED_HIS_SELF',
-                    user: props.user.profile.user.id,
-                    is_muted : !user_stream.getAudioTracks()[0].enabled
-                })
-            )
             props.addUserMedia(
                 {
                     audio: user_stream
