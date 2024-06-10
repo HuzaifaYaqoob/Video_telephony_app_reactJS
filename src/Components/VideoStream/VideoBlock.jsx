@@ -43,7 +43,7 @@ const VideoBlock = (props) => {
     return (
         <>
             <div
-                className="flex-1 bg-gray-200 p-4 flex items-center justify-center gap-4 rounded-3xl overflow-hidden relative"
+                className="flex-1 bg-gray-200 p-4 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 rounded-3xl overflow-hidden relative"
                 style={{
                     // backgroundImage: 'url("https://images.unsplash.com/photo-1622630998477-20aa696ecb05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTgwOTN8MHwxfHNlYXJjaHw0fHxibG9jayUyMGNoYWlufGVufDB8fHx8MTY1NTk2MTkzMw&ixlib=rb-1.2.1&q=80&w=1080")'
                 }}
