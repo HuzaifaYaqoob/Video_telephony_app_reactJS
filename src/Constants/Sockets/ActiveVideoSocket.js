@@ -184,7 +184,7 @@ const onNewMessage = async (e) => {
         let states = store.getState()
         let user_connection = states?.connection?.connections?.find(cn => cn.user.id == data.user)
         console.log(state)
-        if (user_connection && state.user.id != data.user) {
+        if (user_connection && state?.user?.profile?.user?.id != data.user) {
             let tracks = user_connection.stream.getAudioTracks()
             tracks.forEach(element => {
                 element.enabled = data.is_muted
