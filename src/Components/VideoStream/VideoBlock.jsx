@@ -3,6 +3,28 @@ import { connect } from "react-redux"
 import { ToggleVideoMode } from "../../redux/actions/Video"
 
 
+const UserVideoBlock = ({user, mediaStream}) =>{
+    const rm_vid = useRef(null)
+    const is_vid_active = mediaStream?.getVideoTracks()[0].enabled
+
+
+    useEffect(() => {
+        if (rm_vid.current) {
+            rm_vid.current.srcObject = mediaStream
+            rm_vid.current.play()
+        }
+    }, [rm_vid.current])
+    return (
+        <>
+            <div className="border relative rounded-3xl overflow-hidden min-h-[250px] min-w-[300px] flex-1 flex items-center justify-center border-gray-300">
+                <p className={`absolute text-white ${is_vid_active ? 'bottom-0 left-0 bg-black px-3 py-1' : ''}`}>{user.first_name} {user.last_name}</p>
+                <video ref={rm_vid} autoPlay muted className="w-full"></video>
+            </div>
+        </>
+    )
+}
+
+
 const VideoBlock = (props) => {
     const video_ref = useRef()
 
@@ -21,34 +43,19 @@ const VideoBlock = (props) => {
     return (
         <>
             <div
-                className="flex-1 bg-gray-200 rounded-3xl bg-center bg-cover bg-no-repeat overflow-hidden relative"
+                className="flex-1 bg-gray-200 p-4 flex items-center justify-center gap-4 rounded-3xl overflow-hidden relative"
                 style={{
                     // backgroundImage: 'url("https://images.unsplash.com/photo-1622630998477-20aa696ecb05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTgwOTN8MHwxfHNlYXJjaHw0fHxibG9jayUyMGNoYWlufGVufDB8fHx8MTY1NTk2MTkzMw&ixlib=rb-1.2.1&q=80&w=1080")'
                 }}
             >
-                <div className="w-full h-full bg-gray-800 flex items-center justify-center p-4 flex-1">
-                    {
-                        is_vid_active ?
-                            <>
-                                <video
-                                    className="w-auto max-w-full h-auto max-h-full object-fill"
-                                    muted
-                                    ref={video_ref}
-                                ></video>
-                            </>
-                            :
-                            <>
-                            </>
-                    }
-                    <div className={`${is_vid_active ? 'absolute top-5 left-5 flex items-center justify-start gap-2' : 'static'}`}>
-                        <div className={`${is_vid_active ? 'w-[45px] h-[45px]' : 'w-[120px] h-[120px] mb-5 text-2xl'} flex items-center justify-center transition-all rounded-full bg-gray-400 mx-auto `}>
-                            <span className={`capitalize font-bold ${is_vid_active ? 'text-[16px]' : 'text-2xl'}`}>
-                                {props.user.profile?.user?.username && props.user.profile?.user?.username[0]}
-                            </span>
-                        </div>
-                        <p className="text-white text-center text-xl">{props.user.profile?.user?.username ? props.user.profile?.user?.username : 'Your Name'}</p>
-                    </div>
-                </div>
+                <UserVideoBlock user={props.user.profile?.user} mediaStream={props.stream.pinned_stream}/>
+                {
+                    props?.connection?.connections?.map(cnctn => {
+                        return (
+                            <UserVideoBlock user={cnctn?.user} mediaStream={cnctn?.stream} />
+                        )
+                    })
+                }
             </div>
         </>
     )

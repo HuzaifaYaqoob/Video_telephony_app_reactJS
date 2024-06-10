@@ -4,7 +4,7 @@ import Homepage from "./Pages/Homepage";
 import StreamPage from "./Pages/videoPage";
 import { BrowserRouter, Routes, Route, useNavigate, useRoutes, useLocation } from "react-router-dom";
 import SnackBar from 'my-react-snackbar';
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
 import { useEffect } from "react";
@@ -19,6 +19,8 @@ import InitializeWindowStore from "./Constants/storeConstants";
 import WhiteboardScreen from "./Pages/Whiteboard/Whiteboard";
 
 function App(props) {
+  const state = useSelector(s => s)
+  console.log(state)
   const location = useLocation()
   const loading_size = 80
   const navigate = useNavigate()
