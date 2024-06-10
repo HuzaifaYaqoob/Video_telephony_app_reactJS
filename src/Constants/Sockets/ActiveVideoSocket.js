@@ -180,10 +180,10 @@ const onNewMessage = async (e) => {
         )
     }
     else if (data.type == 'USER_MUTED_HIS_SELF'){
-        
-        let user_connection = store.connection.connections.find(cn => cn.user.id == data.user)
+        let states = store.getState()
+        let user_connection = states?.connection?.connections?.find(cn => cn.user.id == data.user)
         console.log('USER_MUTED_HIS_SELF')
-        console.log(store.connection.connections)
+        console.log(states.connection.connections)
         console.log(data)
         console.log(user_connection)
     }
