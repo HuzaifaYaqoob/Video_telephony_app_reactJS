@@ -46,7 +46,7 @@ const SettingSideBar = (props) => {
             setwaiting_room(settings.waiting_room)
         }
 
-    }, [props.video.video_chat?.settings])
+    }, [])
 
 
     useEffect(() => {
@@ -99,7 +99,7 @@ const SettingSideBar = (props) => {
                             onChangeFunction={() => { setstart_video(!start_video) }}
                         />
                         <SwitchButton
-                            text={'Unmute All'}
+                            text={unmute ? 'Unmute All' : 'Mute All'}
                             active={unmute}
                             name='unmute'
                             onChangeFunction={() => { setunmute(!unmute) }}

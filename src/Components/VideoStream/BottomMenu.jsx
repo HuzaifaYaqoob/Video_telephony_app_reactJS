@@ -14,6 +14,9 @@ const MenuBlock = (props) => {
     const dispatch = useDispatch()
     const [more_dropdown, setMoreDropDown] = useState()
 
+
+    let settings = props?.video?.video_chat?.settings ? props.video.video_chat?.settings : {}
+
     const share_video_handler = () => {
         let user_stream = props.user.stream.video_stream
         if (user_stream) {
@@ -158,46 +161,51 @@ const MenuBlock = (props) => {
                     }}
                     active={props.user.stream.audio_stream?.getAudioTracks()[0].enabled ? true : false}
                 />
-                <MenuIcon
-                    className='hidden md:block'
-                    icon={
-                        <>
-                            <svg className="w-[20px] h-[17px] md:w-[28px] md:h-[26px]" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    className={`${(props.user.stream.screen_share?.getVideoTracks()[0].enabled ? 'fill-[#0469fa]' : 'fill-white')}`}
-                                    d="M1.5 21.5H14V26H9V28H21V26H16V21.5H28.5C28.8977 21.4995 29.2789 21.3414 29.5601 21.0601C29.8414 20.7789 29.9995 20.3977 30 20V1.5C29.9995 1.10232 29.8414 0.721056 29.5601 0.439851C29.2789 0.158647 28.8977 0.000463153 28.5 0H1.5C1.10232 0.000463153 0.721056 0.158647 0.439851 0.439851C0.158647 0.721056 0.000463153 1.10232 0 1.5V20C0.000463153 20.3977 0.158647 20.7789 0.439851 21.0601C0.721056 21.3414 1.10232 21.4995 1.5 21.5V21.5ZM2 2H28V19.5H2V2Z" />
-                            </svg>
-                        </>
-                    }
-                    text='share'
-                    onClick={() => {
-                        share_screen_handler()
-                    }}
-                    active={props.user.stream.screen_share && props.user.stream.screen_share.getVideoTracks()[0].enabled}
-
-                />
-                <MenuIcon
-                    icon={
-                        <>
-                            <svg className="w-[20px] h-[20px] md:w-[28px] md:h-[27px]" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.02125 21.1587C5.21587 21.361 5.365 21.6054 5.45802 21.8743C5.55103 22.1432 5.58564 22.43 5.55937 22.7144C5.4276 24.0304 5.17777 25.3308 4.81312 26.5989C7.42875 25.9715 9.02625 25.2451 9.75188 24.8644C10.1634 24.6485 10.6374 24.5973 11.0831 24.7207C12.3608 25.0736 13.6777 25.2512 15 25.249C22.4925 25.249 28.125 19.7972 28.125 13.5956C28.125 7.39602 22.4925 1.94223 15 1.94223C7.5075 1.94223 1.875 7.39602 1.875 13.5956C1.875 16.4468 3.03187 19.0921 5.02125 21.1587ZM4.09687 28.7431C3.65263 28.8343 3.20694 28.9178 2.76 28.9936C2.385 29.0558 2.1 28.6518 2.24813 28.2905C2.41461 27.8838 2.5672 27.4712 2.70562 27.0533L2.71125 27.0339C3.17625 25.6355 3.555 24.0273 3.69375 22.5299C1.39313 20.1409 0 17.0139 0 13.5956C0 6.08695 6.71625 0 15 0C23.2838 0 30 6.08695 30 13.5956C30 21.1043 23.2838 27.1912 15 27.1912C13.5143 27.1933 12.0349 26.9935 10.5994 26.5969C9.62437 27.1077 7.52625 28.038 4.09687 28.7431V28.7431Z" fill="black" />
-                            </svg>
-                        </>
-                    }
-                    color='black'
-                    text='chat'
-                    onClick={(e) => {
-                        props.MakeActiveTab({ tab: 'CHAT' })
-                        dispatch(
-                            {
-                                type: 'ON_CHAT_NEW_MESSAGE',
-                                payload: false
-                            }
-                        )
-                    }}
-                    active={true}
-                    badge={props.utility.is_message}
-                />
+                {
+                    settings?.share_screen && 
+                    <MenuIcon
+                        className='hidden md:block'
+                        icon={
+                            <>
+                                <svg className="w-[20px] h-[17px] md:w-[28px] md:h-[26px]" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        className={`${(props.user.stream.screen_share?.getVideoTracks()[0].enabled ? 'fill-[#0469fa]' : 'fill-white')}`}
+                                        d="M1.5 21.5H14V26H9V28H21V26H16V21.5H28.5C28.8977 21.4995 29.2789 21.3414 29.5601 21.0601C29.8414 20.7789 29.9995 20.3977 30 20V1.5C29.9995 1.10232 29.8414 0.721056 29.5601 0.439851C29.2789 0.158647 28.8977 0.000463153 28.5 0H1.5C1.10232 0.000463153 0.721056 0.158647 0.439851 0.439851C0.158647 0.721056 0.000463153 1.10232 0 1.5V20C0.000463153 20.3977 0.158647 20.7789 0.439851 21.0601C0.721056 21.3414 1.10232 21.4995 1.5 21.5V21.5ZM2 2H28V19.5H2V2Z" />
+                                </svg>
+                            </>
+                        }
+                        text='share'
+                        onClick={() => {
+                            share_screen_handler()
+                        }}
+                        active={props.user.stream.screen_share && props.user.stream.screen_share.getVideoTracks()[0].enabled}
+                    />
+                }
+                {
+                    settings?.allow_chat && 
+                    <MenuIcon
+                        icon={
+                            <>
+                                <svg className="w-[20px] h-[20px] md:w-[28px] md:h-[27px]" viewBox="0 0 30 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.02125 21.1587C5.21587 21.361 5.365 21.6054 5.45802 21.8743C5.55103 22.1432 5.58564 22.43 5.55937 22.7144C5.4276 24.0304 5.17777 25.3308 4.81312 26.5989C7.42875 25.9715 9.02625 25.2451 9.75188 24.8644C10.1634 24.6485 10.6374 24.5973 11.0831 24.7207C12.3608 25.0736 13.6777 25.2512 15 25.249C22.4925 25.249 28.125 19.7972 28.125 13.5956C28.125 7.39602 22.4925 1.94223 15 1.94223C7.5075 1.94223 1.875 7.39602 1.875 13.5956C1.875 16.4468 3.03187 19.0921 5.02125 21.1587ZM4.09687 28.7431C3.65263 28.8343 3.20694 28.9178 2.76 28.9936C2.385 29.0558 2.1 28.6518 2.24813 28.2905C2.41461 27.8838 2.5672 27.4712 2.70562 27.0533L2.71125 27.0339C3.17625 25.6355 3.555 24.0273 3.69375 22.5299C1.39313 20.1409 0 17.0139 0 13.5956C0 6.08695 6.71625 0 15 0C23.2838 0 30 6.08695 30 13.5956C30 21.1043 23.2838 27.1912 15 27.1912C13.5143 27.1933 12.0349 26.9935 10.5994 26.5969C9.62437 27.1077 7.52625 28.038 4.09687 28.7431V28.7431Z" fill="black" />
+                                </svg>
+                            </>
+                        }
+                        color='black'
+                        text='chat'
+                        onClick={(e) => {
+                            props.MakeActiveTab({ tab: 'CHAT' })
+                            dispatch(
+                                {
+                                    type: 'ON_CHAT_NEW_MESSAGE',
+                                    payload: false
+                                }
+                            )
+                        }}
+                        active={true}
+                        badge={props.utility.is_message}
+                    />
+                }
                 <MenuIcon
                     icon={
                         <>
@@ -239,7 +247,7 @@ const MenuBlock = (props) => {
                             {
                                 props.user.profile.user.username == props.video.video_chat.host.username &&
                                 <>
-                                    <div
+                                    {/* <div
                                         className="py-2 px-3 hidden md:block hover:bg-gray-100 cursor-pointer rounded-md mb-2 text-[#2f3f69]"
                                         onClick={meeting_recording_handler}
                                     >
@@ -249,7 +257,7 @@ const MenuBlock = (props) => {
                                                 :
                                                 'Start Recording'
                                         }
-                                    </div>
+                                    </div> */}
                                     {/* {
 
                                         props.utility.recording_available &&
@@ -276,14 +284,18 @@ const MenuBlock = (props) => {
                             >
                                 White Board
                             </div>
-                            <div
-                                className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded-md text-[#2f3f69]"
-                                onClick={() => {
-                                    props.MakeActiveTab({ tab: 'SETTINGS' })
-                                }}
-                            >
-                                Security Settings
-                            </div>
+                            {
+                                props.user.profile.user.username == props.video.video_chat.host.username &&
+                                <div
+                                    className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded-md text-[#2f3f69]"
+                                    onClick={() => {
+                                        props.MakeActiveTab({ tab: 'SETTINGS' })
+                                        setMoreDropDown(false)
+                                    }}
+                                >
+                                    Security Settings
+                                </div>
+                            }
                             <div
                                 className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded-md text-red-600"
                                 onClick={() => {

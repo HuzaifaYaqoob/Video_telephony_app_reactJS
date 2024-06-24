@@ -39,7 +39,7 @@ const VideoStream = (props) => {
                             <div
                                 className="w-full my-3 bg-gray-900 text-white cursor-pointer rounded-md px-3 py-2" title="Copy Link"
                                 onClick={() => {
-                                    navigator.clipboard.writeText(`https://pentutor-live.redexpo.co.uk/${params.video_chat_id}`)
+                                    navigator.clipboard.writeText(`https://meet.redexpo.co.uk/${params.video_chat_id}`)
                                     dispatch({
                                         type: 'ADD_OR_REMOVE_SNACK_BAR',
                                         payload: {
@@ -49,7 +49,7 @@ const VideoStream = (props) => {
                                     })
                                 }}
                             >
-                                https://pentutor-live.redexpo.co.uk/{params.video_chat_id}
+                                https://meet.redexpo.co.uk/{params.video_chat_id}
                             </div>
                             <p className="mb-2 text-gray-500">people who use this meeting link must get your permission before they can join</p>
                             <div
