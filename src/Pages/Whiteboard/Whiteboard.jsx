@@ -1,5 +1,6 @@
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { connect } from 'react-redux'
 import { SketchField, Tools } from 'react-sketch-whiteboard'
 
 
@@ -23,13 +24,50 @@ const BoardTool = ({ data, active, onClick }) => {
 
 
 
-const SketchFieldDemo = () => {
+const SketchFieldDemo = ({...props}) => {
     const [selected_tool, setSelected] = useState('pencil')
+    const sketch = useRef()
+    const imgage = useRef()
 
     const handle_select_tool = (name) => {
         setSelected(name)
     }
 
+
+    const handleWhiteboardUpdate = () =>{
+        if (document != undefined){
+            const img = sketch?.current?.toDataURL('image/png')
+            // imgage.current.src = img
+            if (props?.socket?.active_video_socket){
+                props.socket.active_video_socket.send(
+                    JSON.stringify({
+                        type: 'WHITE_BOARD_DATA',
+                        isActive: true,
+                        image: img,
+                        sender : props?.user?.profile?.user?.username,
+                    })
+                )
+            }
+        }
+    }
+
+    useEffect(() => {
+        setInterval(() => {
+            handleWhiteboardUpdate()
+        }, 1000);
+    }, [sketch])
+
+    useEffect(() => {
+        if (props?.socket?.active_video_socket){
+            props.socket.active_video_socket.send(
+                JSON.stringify({
+                    type: 'WHITE_BOARD_DATA',
+                    isActive: true,
+                    image: ''
+                })
+            )
+        }
+    }, [])
     const all_toots = [
         {
             name: 'arrow',
@@ -73,13 +111,10 @@ const SketchFieldDemo = () => {
             icon: <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.2651 0.651613C10.4757 0.442977 10.7254 0.278012 11 0.166197C11.2745 0.0543823 11.5685 -0.0020788 11.8649 5.84852e-05C12.1613 0.00219577 12.4544 0.0628892 12.7273 0.178651C13.0002 0.294414 13.2475 0.462962 13.4551 0.674613L18.3651 5.68261C18.7788 6.10448 19.01 6.67216 19.0087 7.26305C19.0074 7.85393 18.7737 8.42059 18.3581 8.84061L16.1011 11.1216C15.3566 10.954 14.5818 10.9785 13.8494 11.1927C13.117 11.4069 12.4511 11.8039 11.9143 12.3463C11.3775 12.8887 10.9874 13.5587 10.7808 14.2933C10.5742 15.0279 10.5578 15.8029 10.7331 16.5456L8.9491 18.3486C8.53044 18.7718 7.96113 19.0119 7.36585 19.0162C6.77057 19.0205 6.19785 18.7887 5.7731 18.3716L0.673102 13.3636C0.460459 13.1547 0.291454 12.9056 0.175903 12.6308C0.0603532 12.356 0.000562193 12.061 3.94557e-06 11.7629C-0.000554301 11.4648 0.0581314 11.1695 0.172652 10.8943C0.287172 10.6191 0.455243 10.3693 0.667102 10.1596L10.2651 0.651613ZM1.7221 11.2256C1.65155 11.2956 1.5956 11.3789 1.55751 11.4707C1.51943 11.5624 1.49996 11.6609 1.50024 11.7602C1.50051 11.8596 1.52054 11.9579 1.55914 12.0495C1.59774 12.1411 1.65416 12.224 1.7251 12.2936L6.8241 17.3016C6.9657 17.4404 7.15649 17.5175 7.35475 17.516C7.55302 17.5145 7.74262 17.4345 7.8821 17.2936L9.3501 15.8106L3.2511 9.71061L1.7221 11.2256ZM15.1141 19.0136C16.0424 19.0136 16.9326 18.6449 17.589 17.9885C18.2454 17.3321 18.6141 16.4419 18.6141 15.5136C18.6141 14.5854 18.2454 13.6951 17.589 13.0387C16.9326 12.3824 16.0424 12.0136 15.1141 12.0136C14.1858 12.0136 13.2956 12.3824 12.6392 13.0387C11.9829 13.6951 11.6141 14.5854 11.6141 15.5136C11.6141 16.4419 11.9829 17.3321 12.6392 17.9885C13.2956 18.6449 14.1858 19.0136 15.1141 19.0136Z" fill="black" />
             </svg>
-
-
-
         }
     ]
     return (
-        <div className='relative' >
+        <div className='relative w-full' >
             <div className='absolute top-10 left-10 bg-white p-2 rounded-md shadow-lg flex gap-3 z-20'>
                 {
                     all_toots.map((tl, index) => {
@@ -93,13 +128,17 @@ const SketchFieldDemo = () => {
                 }
             </div>
             <SketchField
+                ref={sketch}
+                id='whiteboard'
                 width='100%'
                 className='bg-gray-100'
                 height='100vh'
                 tool={selected_tool}
                 lineColor='#000'
                 lineWidth={3}
+
             />
+            {/* <img src="" ref={imgage} alt="" className='w-[100px] h-[100px]' /> */}
         </div>
     )
 }
@@ -108,12 +147,21 @@ const SketchFieldDemo = () => {
 
 
 
-const WhiteboardScreen = () => {
+const WhiteboardScreen = (props) => {
     return (
         <>
-            <SketchFieldDemo />
+            <SketchFieldDemo {...props} />
         </>
     )
 }
 
-export default WhiteboardScreen
+
+
+const mapStateToProps = state => {
+    return state
+}
+
+const mapDispatchToProps = {
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WhiteboardScreen)

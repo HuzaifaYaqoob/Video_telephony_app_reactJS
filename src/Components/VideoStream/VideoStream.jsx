@@ -10,12 +10,14 @@ import Cookies from "js-cookie"
 import { AddActiveVideoSocket } from "../../redux/actions/socket"
 import ParticipantAudioComp from './ParticipantsAudio'
 import { JoinVideoChatParticipants } from "../../Constants/VideoChats/VideoChat"
+import WhiteboardScreen from "../../Pages/Whiteboard/Whiteboard"
 
 
 const VideoStream = (props) => {
     const params = useParams()
     const dispatch = useDispatch()
     const [copy_link_popup, setCopyLinkPopup] = useState(true)
+    const [whiteBoardActive, setWhiteBoardActive] = useState(false)
 
     useEffect(() => {
         // if (props.connection.connections.length < 1 && props.user.stream.video_stream && props.user.stream.audio_stream) {
@@ -27,6 +29,8 @@ const VideoStream = (props) => {
             )
         }
     }, [props.user.stream.video_stream, props.user.stream.audio_stream])
+
+    console.log(whiteBoardActive)
     return (
         <>
             <div className="w-full flex-1 flex flex-col gap-2 md:gap-4">
@@ -64,8 +68,28 @@ const VideoStream = (props) => {
                     </div>
                 }
                 <ParticipantAudioComp />
-                <VideoBlock />
-                <MenuBlock />
+                {
+                    (whiteBoardActive || props?.video?.whiteboard) ? 
+                    <div
+                        className="flex-1 bg-gray-100 rounded-3xl overflow-hidden relative"
+                    >
+                        {
+                            props?.user?.profile?.user?.username == props?.video?.video_chat?.host?.username ?
+                            <WhiteboardScreen/>
+                            :
+                            <div>
+                                <img src={props?.video?.whiteboard} alt="" />
+                            </div>
+                        }
+                    </div>
+                    :
+                    <VideoBlock />
+                }
+                <MenuBlock 
+                    onWhiteboard={(isEnabled)=>{
+                        setWhiteBoardActive(!whiteBoardActive)
+                    }}
+                />
             </div>
         </>
     )

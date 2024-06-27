@@ -7,11 +7,17 @@ const initialState = {
     stream_type: null,
     video_chat: undefined,
     video_chat_joined: false,
+    whiteboard : null
 }
 
 
 const VideoReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'VIDEO_CHAT_WHITEBOARD_CHANGE':
+            return {
+                ...state,
+                whiteboard : action.payload
+            }
         case 'VIDEO_CHAT_SETTINGS_CHANGE':
             let vid_chat_prev = state.video_chat ? state.video_chat : {}
             return {

@@ -30,7 +30,12 @@ export const GetVideoChat = (data, success, fail) => dispatch => {
     let s_code;
 
     fetch(
-        BaseURL + get_video_chat + `?video_chat_id=${data.video_chat_id}`
+        BaseURL + get_video_chat + `?video_chat_id=${data.video_chat_id}`,
+        {
+            headers: {
+                Authorization: `Token ${Cookies.get('auth_token')}`
+            }
+        }
     )
         .then(response => {
             s_code = response.status

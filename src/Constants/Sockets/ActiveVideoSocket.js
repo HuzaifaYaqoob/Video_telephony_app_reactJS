@@ -170,6 +170,12 @@ const onNewMessage = async (e) => {
         }
     }
     else if (data.type == 'SETTINGS_CHANGE'){
+        data.setting = data.setting || data?.message
+        state?.connection?.connections?.filter(cnct => cnct.user.username != data?.chat?.host?.username)?.map(cnct => {
+            cnct?.stream?.getAudioTracks()?.forEach(track => {
+                track.enabled = !data?.setting?.unmute
+            });
+        })
         store.dispatch(
             {
                 type: 'VIDEO_CHAT_SETTINGS_CHANGE',
@@ -178,6 +184,16 @@ const onNewMessage = async (e) => {
                 }
             }
         )
+    }
+    else if (data.type == 'WHITE_BOARD_DATA'){
+        if (state?.user?.profile?.user?.username != data.sender){
+            store.dispatch(
+                {
+                    type: 'VIDEO_CHAT_WHITEBOARD_CHANGE',
+                    payload: data.image
+                }
+            )
+        }
     }
 }
 

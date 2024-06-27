@@ -9,7 +9,7 @@ import { useState } from "react"
 import { startRecording, stopRecording } from "../../Constants/MediaRecording/MediaRecording"
 
 
-const MenuBlock = (props) => {
+const MenuBlock = ({onWhiteboard, ...props}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [more_dropdown, setMoreDropDown] = useState()
@@ -162,7 +162,7 @@ const MenuBlock = (props) => {
                     active={props.user.stream.audio_stream?.getAudioTracks()[0].enabled ? true : false}
                 />
                 {
-                    settings?.share_screen && 
+                    (settings?.share_screen || props?.user?.profile?.user?.username == props?.video?.video_chat?.host?.username) && 
                     <MenuIcon
                         className='hidden md:block'
                         icon={
@@ -182,7 +182,7 @@ const MenuBlock = (props) => {
                     />
                 }
                 {
-                    settings?.allow_chat && 
+                    (settings?.allow_chat || props?.user?.profile?.user?.username == props?.video?.video_chat?.host?.username) && 
                     <MenuIcon
                         icon={
                             <>
@@ -276,10 +276,11 @@ const MenuBlock = (props) => {
                                 className="py-2 px-3 hover:bg-gray-100 cursor-pointer rounded-md text-[#2f3f69]"
                                 onClick={() => {
                                     setMoreDropDown(false)
-                                    let a = document.createElement('a');
-                                    a.target = '_blank';
-                                    a.href = '/whiteboard';
-                                    a.click();
+                                    // let a = document.createElement('a');
+                                    // a.target = '_blank';
+                                    // a.href = '/whiteboard';
+                                    // a.click();
+                                    onWhiteboard()
                                 }}
                             >
                                 White Board
